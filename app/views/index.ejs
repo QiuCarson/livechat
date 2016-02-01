@@ -7,7 +7,7 @@
                 $('#incomingChatMessages').append($('<li>Connected</li>'));
   
                 iosocket.on('message', function(message) {
-                    $('#incomingChatMessages').append($('<li></li>').text(message));
+                    $('#incomingChatMessages').append($('<li></li>').text(message.content));
                 });
                 iosocket.on('disconnect', function() {
                     $('#incomingChatMessages').append('<li>Disconnected</li>');
@@ -17,7 +17,7 @@
             $('#outgoingChatMessage').keypress(function(event) {
                 if(event.which == 13) {
                     event.preventDefault();
-                    iosocket.send($('#outgoingChatMessage').val());
+                    iosocket.send({content:$('#outgoingChatMessage').val(),avatar:$('#avatar').val()});
                     $('#incomingChatMessages').append($('<li></li>').text($('#outgoingChatMessage').val()));
                     $('#outgoingChatMessage').val('');
                 }
@@ -26,6 +26,7 @@
     </script>
 Incoming Chat:&nbsp;<ul id="incomingChatMessages"></ul>
 <br />
+<div id="avatar"></div>
 <input type="text" id="outgoingChatMessage">
 
 <% include footer %>
